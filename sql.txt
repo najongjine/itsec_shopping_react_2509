@@ -1,0 +1,64 @@
+CREATE TABLE t_category (
+    -- id: 자동 증가 (SERIAL은 4바이트 정수, 더 큰 수는 BIGSERIAL 사용)
+    id SERIAL PRIMARY KEY,
+
+    -- category_name: 문자열, 기본값 빈 문자열, NULL 허용 안 함
+    category_name VARCHAR(255) DEFAULT '',
+
+    -- created_dt: 생성 시간 (Timezone 포함), 기본값 현재 시간
+    created_dt TIMESTAMPTZ DEFAULT NOW(),
+
+    -- updated_dt: 수정 시간 (Timezone 포함), 기본값 현재 시간
+    updated_dt TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+CREATE TABLE t_product (
+    id SERIAL PRIMARY KEY,
+
+    -- product_name: 문자열, 기본값 빈 문자열
+    product_name VARCHAR DEFAULT '',
+
+    -- user_id: int4 (사용자 테이블이 있다면 REFERENCES users(id) 추가 권장)
+    user_id INT4,
+
+    -- category_id: int4 (t_category 테이블의 id를 참조)
+    category_id INT4,
+
+    -- description: 설명, 기본값 빈 문자열 (긴 글이라면 TEXT 타입 권장)
+    description VARCHAR DEFAULT '',
+
+    created_dt TIMESTAMPTZ DEFAULT NOW(),
+    updated_dt TIMESTAMPTZ DEFAULT NOW(),
+
+    -- [선택 사항] 외래 키 제약조건: t_category에 없는 id는 입력 불가하도록 설정
+    CONSTRAINT fk_product_category
+        FOREIGN KEY (category_id)
+        REFERENCES t_category(id)
+        ON DELETE CASCADE
+    
+    CONSTRAINT fk_product_user_id
+        FOREIGN KEY (user_id)
+        REFERENCES t_user(id)
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE t_product_img (
+    id SERIAL PRIMARY KEY,
+
+    -- product_id: t_product 테이블 참조, 부모(상품) 삭제 시 이미지도 자동 삭제 (CASCADE)
+    product_id INT4,
+
+    -- imgurl: URL은 길이가 길어질 수 있으므로 넉넉하게 잡거나 TEXT 타입 추천
+    imgurl VARCHAR DEFAULT '',
+
+    created_dt TIMESTAMPTZ DEFAULT NOW(),
+    updated_dt TIMESTAMPTZ DEFAULT NOW(),
+
+    -- 외래 키 제약 조건 설정
+    CONSTRAINT fk_product_img_product
+        FOREIGN KEY (product_id)
+        REFERENCES t_product(id)
+        ON DELETE CASCADE
+);
