@@ -24,13 +24,19 @@ const ProductUpsert: React.FC = () => {
     <div className="">
       <div>상품 업로드</div>
       <div>
+        <label>상품이름:</label>
         <input placeholder="상품 이름" />
       </div>
       <div>
-        <input placeholder="상품 내용" />
+        <label>상품 내용:</label>
+        <textarea placeholder="상품 내용" cols={50} rows={50} />
       </div>
       <div>
         <input placeholder="이미지선택" type="file" accept="image/*" multiple />
+      </div>
+      <br />
+      <div>
+        <button>저장</button>
       </div>
     </div>
   );
