@@ -57,7 +57,7 @@ export default function Header() {
         </li>
 
         <li>
-          <Link to="/video_upload">비디오업로드</Link>
+          <Link to="/product_upsert">상품 업로드</Link>
         </li>
       </ul>
 
