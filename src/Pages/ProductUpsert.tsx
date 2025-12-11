@@ -15,11 +15,25 @@
  * 마지막에 export default Header;
  * Header 를 내가 정하고 싶은 이름으로 변경(파일이음이랑 똑같이)
  */
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useShallow } from "zustand/shallow";
 
 const ProductUpsert: React.FC = () => {
   const mode = import.meta.env.MODE;
+  const userInfo = useAuthStore((state: any) => state.userInfo);
+
+  // 2. 액션 함수 가져오기 (SET을 위한 함수)
+  const { login, logout } = useAuthStore(
+    useShallow((state: any) => ({
+      login: state?.login,
+      logout: state?.logout,
+    }))
+  );
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
   return (
     <div className="">
       <div>상품 업로드</div>
