@@ -49,7 +49,7 @@ const ProductUpsert: React.FC = () => {
 
     // 2. 일반 텍스트 데이터 추가
     formData.append("product_name", productName);
-    formData.append("productDetail", productDetail);
+    formData.append("description", productDetail);
     formData.append("category_id", String(categoryId)); // 숫자는 문자열로 변환하여 전송
 
     // 3. 파일 배열 추가 (반복문 사용)
