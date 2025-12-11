@@ -30,7 +30,7 @@ const ProductUpsert: React.FC = () => {
         <input placeholder="상품 내용" />
       </div>
       <div>
-        <input placeholder="이미지선택" type="file" multiple />
+        <input placeholder="이미지선택" type="file" accept="image/*" multiple />
       </div>
     </div>
   );
