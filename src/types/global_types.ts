@@ -27,6 +27,6 @@ export interface ProductType {
   username?: number;
   imgurl?: string;
   product_name?: string;
-  createdDt?: string;
-  updatedDt?: string;
+  created_dt?: string;
+  updated_dt?: string;
 }

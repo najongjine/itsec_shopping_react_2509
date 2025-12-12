@@ -62,7 +62,7 @@ const Home: React.FC = () => {
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <span>{item?.product_name}</span>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span>{item?.createdDt}</span>
+                <span>{item?.created_dt}</span>
               </div>
             );
           })}
