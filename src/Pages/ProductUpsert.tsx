@@ -15,10 +15,11 @@
  * 마지막에 export default Header;
  * Header 를 내가 정하고 싶은 이름으로 변경(파일이음이랑 똑같이)
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useShallow } from "zustand/shallow";
+import { ProductCategoryType } from "../types/global_types";
 
 const ProductUpsert: React.FC = () => {
   /**
@@ -39,10 +40,35 @@ const ProductUpsert: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const [category, setCategory] = useState<ProductCategoryType[]>([]);
   const [productName, setProductName] = useState("");
   const [productDetail, setProductDetail] = useState("");
   const [categoryId, setCategoryId] = useState(1);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    getCategory();
+  }, [categoryId]);
+
+  async function getCategory() {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/shopping/get_category_list`,
+        {
+          method: "GET",
+        }
+      );
+      let result = await response.json();
+      if (!result?.success) {
+        alert(`서버 에러. ${result?.msg ?? ""}`);
+        return;
+      }
+      result = result?.data;
+      setCategory(result);
+    } catch (error: any) {
+      alert(`에러. ${error?.message ?? ""}`);
+    }
+  }
 
   async function onSave() {
     const formData = new FormData();
@@ -84,16 +110,23 @@ const ProductUpsert: React.FC = () => {
     <div className="">
       <div>상품 업로드</div>
       <div>
-        <label>카테고리 코드:</label>
-        <input
-          type="number"
+        <label htmlFor="category-select">카테고리:</label>
+        <select
+          id="category-select"
           value={categoryId}
-          onChange={(event) => {
-            const value = Number(event?.target?.value ?? 1);
-            setCategoryId(value);
+          onChange={(e) => {
+            setCategoryId(Number(e.target.value));
           }}
-        />
+        >
+          {/* category 배열을 순회하며 option 생성 */}
+          {category.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.categoryName}
+            </option>
+          ))}
+        </select>
       </div>
+
       <div>
         <label>상품이름:</label>
         <input

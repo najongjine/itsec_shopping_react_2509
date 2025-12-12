@@ -13,3 +13,10 @@ export interface UserInfoType {
   metadata: string;
   token: string;
 }
+
+export interface ProductCategoryType {
+  id?: number;
+  categoryName?: string;
+  createdDt?: string;
+  updatedDt?: string;
+}
