@@ -20,3 +20,13 @@ export interface ProductCategoryType {
   createdDt?: string;
   updatedDt?: string;
 }
+
+export interface ProductType {
+  product_id?: number;
+  user_id?: number;
+  username?: number;
+  imgurl?: string;
+  product_name?: string;
+  createdDt?: string;
+  updatedDt?: string;
+}
